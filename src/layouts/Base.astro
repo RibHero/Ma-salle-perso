@@ -34,6 +34,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       </a>
       <nav class="nav" aria-label="Navigation principale">
         <a href={url('/guides/salle-de-sport-maison-budget/')} aria-current={current === 'guide' ? 'page' : undefined}>Guide par budget</a>
+        <a href={url('/comparatifs/rack-squat/')} aria-current={current === 'comp' ? 'page' : undefined}>Comparatifs</a>
         <a href={url('/outils/calculateur-budget/')} aria-current={current === 'calc' ? 'page' : undefined}>Calculateur</a>
         <a href={url('/a-propos/')} aria-current={current === 'about' ? 'page' : undefined}>À propos</a>
       </nav>

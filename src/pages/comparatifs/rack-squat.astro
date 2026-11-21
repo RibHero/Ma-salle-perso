@@ -1,0 +1,119 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url, UPDATED, AMAZON_DISCLOSURE } from '../../data/site.js';
+import { racks, criteria, faq } from '../../data/racks.js';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const priceOf = (r) => r.price ?? '[PRIX À RELEVER]';
+---
+<Base title="Quel rack à squat choisir pour la maison ? Comparatif" description="Rack pliable, rack avec traction ou cage complète : comparatif de 3 racks à squat pour la maison, avec charge max, dimensions et prix." current="comp">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="wrap article-head stack" style="gap:18px">
+    <nav class="crumbs" aria-label="Fil d'Ariane"><a href={url('/')}>Accueil</a> › Comparatifs › Rack à squat</nav>
+    <h1 style="max-width:860px">Quel rack à squat choisir pour la maison ?</h1>
+    <p class="muted" style="font-size:14px">Mis à jour le {UPDATED} · 3 modèles comparés · 6 min de lecture</p>
+    <p class="lead" style="max-width:820px">Petit budget ou pièce partagée : le rack pliable 120 kg. Squat, développé et tractions dans peu de place : le Rack 500. Charges lourdes en solo : la cage Power Rack 900.</p>
+    <div class="notice" style="max-width:820px"><strong>Transparence :</strong> modèles choisis sur leurs fiches techniques et leurs prix, sans test maison. Caractéristiques relevées sur les fiches du fabricant, avec les sources en bas de page.</div>
+  </div>
+
+  <section class="wrap section" style="padding-top:40px">
+    <h2 style="margin-bottom:18px">Notre sélection</h2>
+    <div class="grid">
+      {racks.map((r) => (
+        <article class="card" style="padding:0;overflow:hidden;display:flex;flex-direction:column">
+          <div style="background:var(--ink);color:var(--accent-soft);padding:10px 20px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase">{r.badge}</div>
+          <div class="stack" style="padding:20px;gap:10px;flex-grow:1">
+            <h3>{r.name}</h3>
+            <p style="color:var(--body)">{r.why}</p>
+            <p style="font-family:var(--display);font-size:34px;font-weight:800;margin-top:6px">{priceOf(r)}</p>
+            <a class="btn" style="margin-top:auto" href={r.href} rel="nofollow sponsored noopener" target="_blank">Voir le prix</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2 style="margin-bottom:18px">Le comparatif en un coup d'œil</h2>
+    <div class="table-box">
+      <table style="min-width:820px">
+        <thead><tr><th>Modèle</th><th>Type</th><th>Charge max</th><th>Dimensions (L × P × H)</th><th>Prix indicatif</th><th>Pour qui</th></tr></thead>
+        <tbody>
+          {racks.map((r) => (
+            <tr>
+              <td><strong><a href={'#' + r.id}>{r.name}</a></strong></td>
+              <td>{r.type}</td>
+              <td>{r.maxLoad}</td>
+              <td>{r.dims}</td>
+              <td class="price">{priceOf(r)}</td>
+              <td style="color:var(--body)">{r.who}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2 style="margin-bottom:18px">Les 4 critères de choix</h2>
+    <div class="grid">
+      {criteria.map((c) => (
+        <div class="card stack" style="gap:8px">
+          <span class="amount" style="font-size:30px">{c.n}</span>
+          <h3 style="font-size:22px">{c.title}</h3>
+          <p style="color:var(--body)">{c.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap section stack" style="gap:20px">
+    <h2>Le détail, modèle par modèle</h2>
+    {racks.map((r) => (
+      <article id={r.id} class="card stack" style="gap:14px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:baseline">
+          <h3 style="font-size:28px">{r.name}</h3>
+          <span class="soon">{r.badge}</span>
+        </div>
+        <div class="grid" style="gap:20px">
+          <div>
+            <p style="font-weight:700;font-size:14px;color:#166534;margin-bottom:6px">Points forts</p>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--body)">{r.pros.map((p) => <li>{p}</li>)}</ul>
+          </div>
+          <div>
+            <p style="font-weight:700;font-size:14px;color:var(--accent-dark);margin-bottom:6px">Limites</p>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--body)">{r.cons.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+          <span style="font-family:var(--display);font-size:30px;font-weight:800">{priceOf(r)}</span>
+          <a class="btn btn-sm" href={r.href} rel="nofollow sponsored noopener" target="_blank">Voir le prix</a>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="wrap section stack" style="gap:12px">
+    <h2>Questions fréquentes</h2>
+    {faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+  </section>
+
+  <section class="wrap section" style="padding-bottom:80px">
+    <div class="dark-panel" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:28px 32px">
+      <p style="font-size:18px;max-width:620px">Vous démarrez ? Le guide par budget dit quoi acheter avant le rack, et dans quel ordre.</p>
+      <a class="btn" style="background:#fff;color:var(--ink)" href={url('/guides/salle-de-sport-maison-budget/')}>Lire le guide par budget</a>
+    </div>
+    <div class="stack" style="gap:8px;margin-top:32px;font-size:14px">
+      <p style="font-weight:700">Sources</p>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px">
+        {racks.map((r) => r.sources.map((s) => <li><a href={s.url} rel="nofollow noopener" target="_blank">{r.name} : {s.label}</a></li>))}
+      </ul>
+    </div>
+    <p class="disclosure" style="margin-top:24px">Ma Salle Perso participe à des programmes d'affiliation. Si vous achetez via nos liens, nous pouvons toucher une commission, sans surcoût pour vous. {AMAZON_DISCLOSURE}</p>
+  </section>
+</Base>

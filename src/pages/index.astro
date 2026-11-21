@@ -16,7 +16,7 @@ const tiers = [
   { amount: '2 000 €', title: 'La vraie salle', text: 'Cage complète, barre robuste, assez de fonte pour progresser des années, sol de 20 mm.', anchor: '#b2000' },
 ];
 const comparisons = [
-  { num: '01', title: 'Rack à squat', text: 'Charge max, hauteur, sécurités : le choix qui structure la salle.' },
+  { num: '01', title: 'Rack à squat', text: 'Charge max, hauteur, sécurités : le choix qui structure la salle.', href: url('/comparatifs/rack-squat/') },
   { num: '02', title: 'Banc de musculation', text: 'Inclinable, déclinable, pliable : selon la place et les exercices.' },
   { num: '03', title: 'Sol amortissant', text: 'Dalles caoutchouc de 11 à 20 mm, selon les charges.' },
   { num: '04', title: 'Haltères réglables', text: 'Toute une gamme de poids sans encombrer la pièce.' },
@@ -81,7 +81,7 @@ const comparisons = [
           <span class="num-badge">{c.num}</span>
           <h3>{c.title}</h3>
           <p class="muted">{c.text}</p>
-          <span class="soon">Bientôt en ligne</span>
+          {c.href ? <a href={c.href} style="font-weight:600;margin-top:auto">Voir le comparatif</a> : <span class="soon">Bientôt en ligne</span>}
         </div>
       ))}
     </div>
