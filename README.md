@@ -6,7 +6,7 @@ Site d'affiliation : guides d'achat et comparatifs pour équiper sa salle de spo
 
 ```bash
 npm install
-npm run dev     # http://localhost:4321/ma-salle-perso/
+npm run dev     # http://localhost:4321/Ma-salle-perso/
 npm run build   # génère dist/
 ```
 
@@ -15,7 +15,7 @@ npm run build   # génère dist/
 Chaque push sur `main` déploie le site sur GitHub Pages (workflow `.github/workflows/deploy.yml`).
 Prérequis, une seule fois : Settings › Pages › Source : **GitHub Actions**.
 
-Adresse provisoire : https://ribhero.github.io/ma-salle-perso/
+Adresse provisoire : https://ribhero.github.io/Ma-salle-perso/
 
 ## Avant l'ouverture publique
 

@@ -4,6 +4,6 @@ import { defineConfig } from 'astro/config';
 // site: 'https://masalleperso.fr' et supprimer la ligne base.
 export default defineConfig({
   site: 'https://ribhero.github.io',
-  base: '/ma-salle-perso',
+  base: '/Ma-salle-perso',
   trailingSlash: 'always',
 });
