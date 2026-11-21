@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/site.js';
+---
+<Base title="À propos" description="Qui est Ma Salle Perso, comment nous sélectionnons le matériel et comment le site est financé." current="about">
+  <div class="wrap prose">
+    <h1>À propos</h1>
+    <p>Ma Salle Perso aide à équiper une salle de sport à la maison sans y passer des heures : quoi acheter selon son budget, dans quel ordre, et quels modèles comparer.</p>
+    <h2>Notre méthode</h2>
+    <p>Nous ne testons pas les produits nous-mêmes. Chaque sélection repose sur trois sources : les fiches techniques des fabricants (charge maximale, dimensions, compatibilité), les prix relevés chez les marchands, et les avis clients publiés.</p>
+    <p>Les contenus sont préparés avec l'aide d'outils d'intelligence artificielle, puis vérifiés et validés par un humain avant publication. Chaque prix et chaque caractéristique est contrôlé sur sa source, et chaque article indique sa date de mise à jour.</p>
+    <h2>Notre financement</h2>
+    <p>Le site est gratuit et sans publicité. Il est financé par l'affiliation : quand vous achetez via nos liens, le marchand nous verse une petite commission, sans surcoût pour vous. <a href={url('/affiliation/')}>En savoir plus</a>.</p>
+  </div>
+</Base>

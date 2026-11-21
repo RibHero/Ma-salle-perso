@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { AMAZON_DISCLOSURE } from '../data/site.js';
+---
+<Base title="Comment nous gagnons de l'argent" description="Ma Salle Perso est financé par l'affiliation : explications et engagements.">
+  <div class="wrap prose">
+    <h1>Comment nous gagnons de l'argent</h1>
+    <p>Certains liens du site sont des liens d'affiliation. Si vous cliquez sur l'un d'eux puis achetez chez le marchand, celui-ci nous verse une commission. Le prix que vous payez ne change pas.</p>
+    <h2>Nos engagements</h2>
+    <ul>
+      <li>La commission ne décide pas de nos sélections : un produit est retenu sur ses caractéristiques, son prix et ses avis.</li>
+      <li>Nous signalons les liens d'affiliation sur chaque article.</li>
+      <li>Nous ne publions ni faux avis ni faux tests.</li>
+    </ul>
+    <h2>Programmes</h2>
+    <p>{AMAZON_DISCLOSURE}</p>
+    <p>[Liste des autres programmes, par exemple via Awin, à compléter après inscription.]</p>
+  </div>
+</Base>

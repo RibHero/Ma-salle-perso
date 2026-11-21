@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import { INDEXABLE, SITE_NAME, AMAZON_DISCLOSURE, url } from '../data/site.js';
+
+interface Props { title: string; description: string; current?: string; }
+const { title, description, current = '' } = Astro.props;
+const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {!INDEXABLE && <meta name="robots" content="noindex, nofollow" />}
+  <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <slot name="head" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href={url('/')}>
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="1" y="11" width="4" height="6" rx="1" fill="#F97316"></rect><rect x="5" y="8" width="3" height="12" rx="1" fill="#FFFFFF"></rect><rect x="8" y="13" width="12" height="2" fill="#FFFFFF"></rect><rect x="20" y="8" width="3" height="12" rx="1" fill="#FFFFFF"></rect><rect x="23" y="11" width="4" height="6" rx="1" fill="#F97316"></rect></svg>
+        Ma Salle Perso
+      </a>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href={url('/guides/salle-de-sport-maison-budget/')} aria-current={current === 'guide' ? 'page' : undefined}>Guide par budget</a>
+        <a href={url('/outils/calculateur-budget/')} aria-current={current === 'calc' ? 'page' : undefined}>Calculateur</a>
+        <a href={url('/a-propos/')} aria-current={current === 'about' ? 'page' : undefined}>À propos</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Ma Salle Perso</span>
+      <nav aria-label="Pages légales">
+        <a href={url('/affiliation/')}>Comment nous gagnons de l'argent</a>
+        <a href={url('/mentions-legales/')}>Mentions légales</a>
+        <a href={url('/confidentialite/')}>Confidentialité</a>
+      </nav>
+      <p class="legal">Ma Salle Perso participe à des programmes d'affiliation et peut percevoir une commission sur les achats effectués via ses liens, sans surcoût pour vous. {AMAZON_DISCLOSURE}</p>
+    </div>
+  </footer>
+</body>
+</html>

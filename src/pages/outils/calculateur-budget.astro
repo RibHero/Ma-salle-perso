@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../data/site.js';
+---
+<Base title="Calculateur : quel matériel pour votre budget ?" description="Indiquez votre budget, votre objectif et votre espace : obtenez une liste d'achats pour votre salle de sport à domicile, dans le bon ordre." current="calc">
+  <div class="wrap article-head stack" style="gap:14px">
+    <nav class="crumbs" aria-label="Fil d'Ariane"><a href={url('/')}>Accueil</a> › Outils › Calculateur de budget</nav>
+    <h1 style="max-width:860px">Quel matériel pour votre budget ?</h1>
+    <p class="lead" style="max-width:760px">Trois réglages, et le calculateur propose une liste d'achats dans le bon ordre, avec des prix relevés chez les marchands.</p>
+  </div>
+
+  <div class="wrap" style="padding-top:32px;padding-bottom:80px">
+    <div class="calc">
+      <form class="calc-form card" id="calc" onsubmit="return false">
+        <div class="field">
+          <label for="budget">Votre budget</label>
+          <output class="budget-value" id="budget-out" for="budget">1 000 €</output>
+          <input type="range" id="budget" name="budget" min="200" max="3000" step="50" value="1000" />
+        </div>
+        <fieldset>
+          <legend>Votre objectif</legend>
+          <label class="choice"><input type="radio" name="goal" value="general" checked /> Renforcement général</label>
+          <label class="choice"><input type="radio" name="goal" value="heavy" /> Charges lourdes (squat, développé)</label>
+        </fieldset>
+        <fieldset>
+          <legend>Votre espace</legend>
+          <label class="choice"><input type="radio" name="space" value="corner" checked /> Un coin de pièce partagée</label>
+          <label class="choice"><input type="radio" name="space" value="room" /> Une pièce ou un garage dédié</label>
+        </fieldset>
+      </form>
+
+      <section class="calc-result stack" aria-live="polite" style="gap:14px">
+        <h2 id="result-title">Votre liste d'achats</h2>
+        <p class="muted" id="result-intro"></p>
+        <ol class="result-list" id="result-list"></ol>
+        <div class="result-total"><span>Total des articles chiffrés</span><span id="total"></span></div>
+        <p id="rest" style="font-size:15px"></p>
+        <p class="muted" style="font-size:14px">Prix indicatifs relevés en 2026, à vérifier chez le marchand. Le sol et certains articles restent à chiffrer selon votre surface.</p>
+        <a class="btn" style="align-self:flex-start" href={url('/guides/salle-de-sport-maison-budget/')}>Lire le guide complet</a>
+      </section>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var fmt = function (n) { return n.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' €'; };
+      var form = document.getElementById('calc');
+      function build(budget, goal, space) {
+        var items = [];
+        items.push({ name: 'Sol : dalles caoutchouc ' + (goal === 'heavy' ? '20 mm' : '11 à 15 mm'), price: null });
+        items.push(budget < 400
+          ? { name: 'Banc pliable inclinable (Domyos Bench 500)', price: 99.99 }
+          : { name: 'Banc inclinable et déclinable (Corength, 300 kg)', price: 149.99 });
+        items.push(budget < 400
+          ? { name: 'Kit haltères 20 kg (Corength)', price: 49.99 }
+          : { name: 'Haltères réglables 20 kg (2 × 10 kg)', price: 97.99 });
+        if (goal === 'heavy' && budget >= 700) {
+          if (space === 'corner') items.push({ name: 'Rack pliable (Corength Rack 500)', price: null });
+          else if (budget >= 1500) items.push({ name: 'Cage complète (Decathlon Power Rack 900, prix promo relevé)', price: 399.99 });
+          else items.push({ name: 'Rack à squat réglable (Gorilla Sports)', price: 189.99 });
+          if (budget >= 1500) {
+            items.push({ name: 'Barre olympique 2,20 m (Heubozen, 300 kg)', price: 149 });
+            items.push({ name: 'Disques olympiques fonte (dès 7 € le disque)', price: null });
+          } else {
+            items.push({ name: 'Kit barre olympique + disques 45 kg (Marbo Sport)', price: 264.24 });
+          }
+        }
+        return items;
+      }
+      function render() {
+        var budget = Number(form.budget.value);
+        var goal = form.goal.value;
+        var space = form.space.value;
+        document.getElementById('budget-out').textContent = fmt(budget);
+        var items = build(budget, goal, space);
+        var list = document.getElementById('result-list');
+        list.textContent = '';
+        var total = 0;
+        items.forEach(function (it, i) {
+          var li = document.createElement('li');
+          var a = document.createElement('span');
+          a.textContent = (i + 1) + '. ' + it.name;
+          var b = document.createElement('strong');
+          b.textContent = it.price === null ? 'à chiffrer' : fmt(it.price);
+          if (it.price !== null) total += it.price;
+          li.appendChild(a); li.appendChild(b); list.appendChild(li);
+        });
+        document.getElementById('total').textContent = fmt(Math.round(total * 100) / 100);
+        var rest = budget - total;
+        var restEl = document.getElementById('rest');
+        restEl.className = rest < 0 ? 'warn' : '';
+        restEl.textContent = rest < 0
+          ? 'Budget dépassé de ' + fmt(Math.round(-rest)) + ' : commencez par les premiers articles de la liste.'
+          : 'Il reste environ ' + fmt(Math.round(rest)) + ' pour le sol et les articles à chiffrer.';
+        var intro = goal === 'heavy' && budget < 700
+          ? 'Sous 700 €, mieux vaut d’abord un banc et des haltères : le rack viendra ensuite.'
+          : 'Dans l’ordre d’achat conseillé : on commence par le sol.';
+        document.getElementById('result-intro').textContent = intro;
+      }
+      form.addEventListener('input', render);
+      form.addEventListener('change', render);
+      render();
+    })();
+  </script>
+</Base>

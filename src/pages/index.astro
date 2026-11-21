@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/site.js';
+
+const guide = url('/guides/salle-de-sport-maison-budget/');
+const calc = url('/outils/calculateur-budget/');
+
+const budgets = [
+  { amount: '500 €', label: 'Banc et haltères pour débuter', anchor: '#b500' },
+  { amount: '1 000 €', label: 'Rack et barre olympique', anchor: '#b1000' },
+  { amount: '2 000 €', label: 'Cage complète et sol épais', anchor: '#b2000' },
+];
+const tiers = [
+  { amount: '500 €', title: "L'essentiel", text: 'Un banc réglable et des haltères : de quoi travailler tout le corps, sans rack.', anchor: '#b500' },
+  { amount: '1 000 €', title: 'Le polyvalent', text: 'On ajoute un rack et une barre olympique pour squatter et développer en sécurité.', anchor: '#b1000' },
+  { amount: '2 000 €', title: 'La vraie salle', text: 'Cage complète, barre robuste, assez de fonte pour progresser des années, sol de 20 mm.', anchor: '#b2000' },
+];
+const comparisons = [
+  { num: '01', title: 'Rack à squat', text: 'Charge max, hauteur, sécurités : le choix qui structure la salle.' },
+  { num: '02', title: 'Banc de musculation', text: 'Inclinable, déclinable, pliable : selon la place et les exercices.' },
+  { num: '03', title: 'Sol amortissant', text: 'Dalles caoutchouc de 11 à 20 mm, selon les charges.' },
+  { num: '04', title: 'Haltères réglables', text: 'Toute une gamme de poids sans encombrer la pièce.' },
+];
+---
+<Base title="Ma Salle Perso" description="Guides d'achat et comparatifs pour équiper sa salle de sport à la maison selon son budget : rack, banc, haltères, sol.">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-text">
+        <p class="kicker">Musculation à domicile</p>
+        <h1>Équipez votre salle à la maison, selon votre budget</h1>
+        <p class="hero-lead">Guides d'achat et comparatifs clairs pour choisir rack, banc, haltères et sol, sans y passer des heures.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
+          <a class="btn" href={guide}>Voir le guide par budget</a>
+          <a class="btn btn-ghost" href={calc}>Calculer mon budget</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <p style="font-weight:600">Quel est votre budget ?</p>
+        {budgets.map((b) => (
+          <a class="budget-link" href={guide + b.anchor}>
+            <span><span class="budget-amount">{b.amount}</span><span class="budget-label">{b.label}</span></span>
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="#FDBA74" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <strong>Transparence</strong>
+      <span>Sélection faite sur fiches techniques, prix relevés et avis clients : nous ne testons pas les produits. Nos liens sont affiliés, sans surcoût pour vous.</span>
+    </div>
+  </div>
+
+  <section class="section wrap stack" style="gap:28px">
+    <div class="stack" style="gap:8px">
+      <h2>Par où commencer</h2>
+      <p class="muted" style="font-size:17px">Trois paliers, du premier banc à la vraie salle avec cage.</p>
+    </div>
+    <div class="grid">
+      {tiers.map((t) => (
+        <article class="card stack" style="gap:14px">
+          <p class="amount">{t.amount}</p>
+          <h3>{t.title}</h3>
+          <p style="color:var(--body)">{t.text}</p>
+          <a href={guide + t.anchor} style="margin-top:auto;font-weight:600">Voir le détail</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap stack" style="gap:28px">
+    <div class="stack" style="gap:8px">
+      <h2>Les comparatifs</h2>
+      <p class="muted" style="font-size:17px">Les critères qui comptent, les modèles qui y répondent.</p>
+    </div>
+    <div class="grid">
+      {comparisons.map((c) => (
+        <div class="card stack" style="gap:10px">
+          <span class="num-badge">{c.num}</span>
+          <h3>{c.title}</h3>
+          <p class="muted">{c.text}</p>
+          <span class="soon">Bientôt en ligne</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap" style="padding-bottom:80px">
+    <div class="dark-panel" style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+      <div class="stack" style="gap:8px;max-width:620px">
+        <h2>Combien prévoir ?</h2>
+        <p class="muted" style="font-size:17px">Indiquez votre budget, votre objectif et votre espace : le calculateur vous propose une liste d'achats dans le bon ordre.</p>
+      </div>
+      <a class="btn" href={calc}>Ouvrir le calculateur</a>
+    </div>
+  </section>
+</Base>

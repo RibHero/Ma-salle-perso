@@ -1,0 +1,98 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url, UPDATED, AMAZON_DISCLOSURE } from '../../data/site.js';
+import { tiers, checks, buyOrder, faq } from '../../data/guide.js';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title="Monter sa salle de sport à la maison : le guide par budget" description="Quoi acheter pour sa salle de sport à domicile avec 500, 1 000 ou 2 000 € : banc, haltères, rack, barre olympique, sol, et dans quel ordre." current="guide">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="wrap article-head stack" style="gap:18px">
+    <nav class="crumbs" aria-label="Fil d'Ariane"><a href={url('/')}>Accueil</a> › Guides › Salle de sport à la maison</nav>
+    <h1 style="max-width:860px">Monter sa salle de sport à la maison : le guide par budget</h1>
+    <p class="muted" style="font-size:14px">Mis à jour le {UPDATED} · 8 min de lecture</p>
+  </div>
+
+  <div class="wrap layout">
+    <aside class="toc card" style="padding:20px">
+      <p class="toc-title">Sommaire</p>
+      <ol>
+        <li><a href="#avant">Avant d'acheter</a></li>
+        {tiers.map((t) => <li><a href={'#' + t.id}>Budget {t.amount}</a></li>)}
+        <li><a href="#ordre">Ordre d'achat</a></li>
+        <li><a href="#faq">Questions fréquentes</a></li>
+      </ol>
+      <a class="btn btn-sm" style="margin-top:18px;width:100%" href={url('/outils/calculateur-budget/')}>Calculer mon budget</a>
+    </aside>
+
+    <article class="article">
+      <p class="lead">Avec 500 €, on s'entraîne déjà sérieusement chez soi. À 2 000 €, on a une vraie salle avec rack, barre olympique et sol amortissant. Voici quoi acheter à chaque palier, et dans quel ordre.</p>
+
+      <div class="notice"><strong>Transparence :</strong> sélection faite à partir des fiches techniques, des prix relevés et des avis clients. Nous ne testons pas les produits. Les prix indiqués ont été relevés en 2026 et peuvent varier.</div>
+
+      <section id="avant" class="stack" style="gap:14px">
+        <h2>Avant d'acheter : 4 vérifications</h2>
+        <ul class="checklist">
+          {checks.map((k) => (
+            <li>
+              <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="20" height="20" rx="5" fill="none" stroke="#C2410C" stroke-width="2"></rect><path d="M6 11l3.5 3.5L16 8" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span><strong>{k.title}</strong> {k.text}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {tiers.map((t) => (
+        <section id={t.id} class="stack" style="gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px">
+            <span class="amount">{t.amount}</span>
+            <h2>{t.title}</h2>
+          </div>
+          <p style="font-size:17px;color:var(--body)">{t.intro}</p>
+          <div class="table-box">
+            <table>
+              <thead><tr><th>Matériel</th><th>Exemple</th><th>Prix indicatif</th><th><span class="sr-only">Lien</span></th></tr></thead>
+              <tbody>
+                {t.rows.map((r) => (
+                  <tr>
+                    <td><strong>{r.item}</strong></td>
+                    <td style="color:var(--body)">{r.example}</td>
+                    <td class="price">{r.price ?? '[PRIX À RELEVER]'}</td>
+                    <td class="cta"><a class="btn btn-sm" href={r.href} rel="nofollow sponsored noopener" target="_blank">Voir le prix</a></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {t.note && <p class="muted" style="font-size:15px"><strong>À savoir :</strong> {t.note}</p>}
+        </section>
+      ))}
+
+      <section id="ordre" class="stack" style="gap:14px">
+        <h2>L'ordre d'achat qui évite de racheter</h2>
+        <ol class="order">
+          {buyOrder.map((o, i) => <li><span class="n">{i + 1}</span>{o}</li>)}
+        </ol>
+        <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;color:var(--body)">
+          <li><strong>Mélanger les diamètres :</strong> les disques olympiques (51 mm) ne vont pas sur une barre de 28 ou 30 mm.</li>
+          <li><strong>Ignorer la charge maximale :</strong> banc, barre et rack doivent supporter votre poids plus la charge.</li>
+          <li><strong>Oublier la hauteur :</strong> un rack trop haut pour la pièce ne se monte pas.</li>
+        </ul>
+      </section>
+
+      <section id="faq" class="stack" style="gap:12px">
+        <h2>Questions fréquentes</h2>
+        {faq.map((f) => (
+          <details><summary>{f.q}</summary><p>{f.a}</p></details>
+        ))}
+      </section>
+
+      <p class="disclosure">Ma Salle Perso participe à des programmes d'affiliation. Si vous achetez via nos liens, nous pouvons toucher une commission, sans surcoût pour vous. Cela n'influence pas nos sélections. {AMAZON_DISCLOSURE}</p>
+    </article>
+  </div>
+</Base>
